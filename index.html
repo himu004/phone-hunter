@@ -34,10 +34,25 @@
             </div>
             <div id="show-all-container" class="text-center hidden">
                 <!-- Show All Button -->
-                <button class="btn btn-active btn-accent">Show All</button>
+                <button onclick="handleShowAll()" class="btn btn-active btn-accent">Show All</button>
             </div>
             
         </section>
+        <!-- MODAL -->
+        <!-- Open the modal using ID.showModal() method -->
+            
+            <dialog id="show_details_modal" class="modal modal-bottom sm:modal-middle">
+            <form method="dialog" class="modal-box">
+                <h3 id="phone-name" class="font-bold text-2xl"></h3>
+                <div id="show-detail-container">
+
+                </div>
+                <div class="modal-action">
+                <!-- if there is a button in form, it will close the modal -->
+                <button class="btn btn-accent w-full">Close</button>
+                </div>
+            </form>
+            </dialog>
     </main>
     <footer>
 

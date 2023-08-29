@@ -1,11 +1,12 @@
-const loadPhone = async (searchText) => {
+const loadPhone = async (searchText = '13') => {
+    
     const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`);
     const data = await res.json();
     const phones = data.data;
     displayPhone(phones);
 }
 
-const displayPhone = phones => {
+const displayPhone = (phones) => {
     // S-1 Get The Container where card belongs
     const phonContainer = document.getElementById('phone-container');
 
@@ -20,8 +21,10 @@ const displayPhone = phones => {
         showAllContainer.classList.add('hidden');
     }
 
-    // First 10 Phones
-    phones = phones.slice(0, 10);
+    // Display First 10 Phones if not show all
+    
+        phones = phones.slice(0, 10);
+    
 
     phones.forEach(phone => {
         // S-2. Create a div
@@ -34,7 +37,7 @@ const displayPhone = phones => {
             <h2 class="card-title text-black">${phone.brand}</h2>
             <p class="text-black">${phone.phone_name}</p>
             <div class="card-actions pt-4">
-            <button class="btn btn-accent w-full">Buy Now</button>
+            <button onclick="handleShowDetails('${phone.slug}')" class="btn btn-accent w-full">Show Details</button>
             </div>
         </div>
         `
@@ -46,6 +49,33 @@ const displayPhone = phones => {
 
 }
 
+// SHOW MOBILE DETAILS  
+
+const handleShowDetails = async (id) => {
+    const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`)
+    const data = await res.json();
+
+    const phone = data.data;
+    showPhoneDetails(phone);
+
+
+}
+const showPhoneDetails = (phone) => {
+
+    const phoneName = document.getElementById('phone-name');
+    phoneName.innerText = phone.name;
+
+    const showDetails = document.getElementById('show-detail-container');
+    showDetails.innerHTML = `
+     <img src="${phone.image}"/>
+     <p><span>Storage:</span>${phone?.mainFeatures?.storage}</p>
+     <p><span>Storage:</span>${phone?.mainFeatures?.displaySize}</p>
+    `
+
+
+    // Show Modal
+    show_details_modal.showModal();
+}
 // Hanlde Search Button
 
 const handleSearch = () => {
@@ -65,4 +95,12 @@ const toggleLoadingSpinner = (isLoading) => {
     }
 }
 
-// loadPhone();
+// Show All Button
+
+const handleShowAll = () => {
+
+    handleSearch();
+
+}
+
+loadPhone();
